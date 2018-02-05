@@ -3,10 +3,11 @@ import scrapy
 from scrapy.spiders import CrawlSpider, Rule
 from scrapy.linkextractors import LinkExtractor
 from news_scrapy.items import News
-from urlparse import urljoin
+from urllib.parse import urljoin
+from scrapy_redis.spiders import RedisCrawlSpider
 
-class NewsSpider(CrawlSpider):
-	name = 'news'
+class SinaNewsSpider(RedisCrawlSpider):
+	name = 'sina_news'
 	allowed_domains = ['sina.com.cn']
 	start_urls = [
 	'http://roll.news.sina.com.cn/news/gnxw/gdxw1/index_1.shtml',#国内 内地
@@ -66,14 +67,14 @@ class NewsSpider(CrawlSpider):
 		news=News()
 		#新闻标题
 		title=response.xpath('//h1/text()')
-		# if(title == None):
-			# return
+		if(title == None or len(title)==0):
+			return
 		news["title"]=title[0].extract().encode('utf-8')
 		news['url']=response.url
 		types=response.xpath('//div[contains(@class,"channel-path")]/a/text()')
-		if types==None:
+		if types==None or len(types)==0:
 			types=response.xpath('//div[contains(@class,"bread")]/a/text()')
-		if types!=None:
+		if types!=None and len(types)>0:
 			news['news_type']=types[0].extract().encode('utf-8')
 		else:
 			news['news_type']="null"
