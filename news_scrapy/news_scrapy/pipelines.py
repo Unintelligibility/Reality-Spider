@@ -31,7 +31,7 @@ class MongoPipeline(object):
 	def open_spider(self, spider):
 		self.client = pymongo.MongoClient(host=self.uri,port=self.port)
 		self.db = self.client[self.mongo_db]
-		self.client.admin.authenticate(self.user, self.passwd)
+		self.client.reality.authenticate(self.user, self.passwd)
 
 	def close_spider(self,spider):
 		self.client.close()

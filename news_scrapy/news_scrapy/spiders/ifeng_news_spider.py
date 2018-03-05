@@ -9,22 +9,8 @@ from scrapy_redis.spiders import RedisCrawlSpider
 class IfengNewsSpider(RedisCrawlSpider):
 	name = 'ifeng_news'
 	allowed_domains = ['ifeng.com']
-	# start_urls = [
-	# 'http://news.ifeng.com/',
-	# 'http://sports.ifeng.com',
-	# 'http://finance.ifeng.com',
-	# 'http://ent.ifeng.com',
-	# 'http://fashion.ifeng.com',
-	# 'http://auto.ifeng.com',# car
-	# 'http://tech.ifeng.com',
-	# 'http://book.ifeng.com',
-	# 'http://games.ifeng.com',
-	# 'http://culture.ifeng.com',
-	# 'http://news.ifeng.com/history/',
-	# 'http://news.ifeng.com/mil/',# military
-	# ]
 
-	rules=(Rule(LinkExtractor(allow=('[0-9]+\.shtml'),#deny=(''),
+	rules=(Rule(LinkExtractor(allow=('[0-9]+\.shtml'),deny=('house'),
 		restrict_xpaths=('//a')),
 	callback="parse_item",follow=True),
 	Rule(LinkExtractor(allow=('list\.shtml'),
