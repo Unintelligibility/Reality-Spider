@@ -12,9 +12,9 @@ class IfengNewsSpider(RedisCrawlSpider):
 
 	rules=(Rule(LinkExtractor(allow=('[0-9]+\.shtml'),deny=('house'),
 		restrict_xpaths=('//a')),
-	callback="parse_item",follow=True),
-	Rule(LinkExtractor(allow=('list\.shtml'),
-		restrict_xpaths=('//ul[contains(@class,"clearfix")]')),follow=True),
+	callback="parse_item",follow=False),
+	# Rule(LinkExtractor(allow=('list\.shtml'),
+		# restrict_xpaths=('//ul[contains(@class,"clearfix")]')),follow=False),
 	)
 
 	def parse_item(self,response):
@@ -29,7 +29,7 @@ class IfengNewsSpider(RedisCrawlSpider):
 			news["picture"]=pics.extract()[0];
 			pictureInfo=response.xpath('//p[contains(@class,"picIntro")]/text()')
 			if pictureInfo is not None:
-				news["picture_info"]=pics.extract()[0].encode('utf-8')
+				news["picture_info"]=pictureInfo.extract()[0].encode('utf-8')
 			else:
 				news["picture_info"]="Null"
 		else:
@@ -44,13 +44,13 @@ class IfengNewsSpider(RedisCrawlSpider):
 
 		source=response.xpath('//span[contains(@itemprop,"publisher")]/span/a/text()')
 		if source is None or len(source)==0:
-			news["source"]="Null"
+			return
 		else:
 			news["source"]=''.join(source.extract()).encode('utf-8')
 
 		time=response.xpath('//span[contains(@itemprop,"datePublished")]/text()')
 		if time is None or len(time)==0:
-			news["time"]="Null"
+			return
 		else:
 			news["time"]=''.join(time.extract()).encode('utf-8')
 
@@ -58,7 +58,7 @@ class IfengNewsSpider(RedisCrawlSpider):
 
 		newstype=response.xpath('//div[contains(@class,"theLogo")]/div/a/text()')
 		if newstype is None or len(newstype)==0:
-			news["news_type"]="Null"
+			return
 		else:
 			news["news_type"]=newstype[0].extract().encode('utf-8')
 

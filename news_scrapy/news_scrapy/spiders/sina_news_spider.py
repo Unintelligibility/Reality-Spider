@@ -61,7 +61,7 @@ class SinaNewsSpider(RedisCrawlSpider):
 
 	rules=(Rule(LinkExtractor(allow=('[0-9]+\.shtml'),#deny=(''),
 		restrict_xpaths=('//a')),
-	callback="parse_item",follow=True),)
+	callback="parse_item",follow=False),)
 
 	def parse_item(self,response):
 		news=News()
@@ -77,7 +77,7 @@ class SinaNewsSpider(RedisCrawlSpider):
 		if types!=None and len(types)>0:
 			news['news_type']=types[0].extract().encode('utf-8')
 		else:
-			news['news_type']="null"
+			return
 		#图片url 用反斜号分隔
 		picture=response.xpath('//div[contains(@class,"img_wrapper")]/img/@src')
 		if picture is not None :
@@ -105,8 +105,10 @@ class SinaNewsSpider(RedisCrawlSpider):
 			if source!=None and len(source)!=0:
 				source=source[0].extract().encode('utf-8')
 			else:
-				source="未知"
+				return
 		news["source"]=source
 		#时间
 		news["time"]=response.xpath('//span[contains(@class,"date")]/text()')[0].extract().encode('utf-8')
+		if news["time"] is None:
+			return
 		yield news
