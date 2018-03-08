@@ -28,8 +28,12 @@ class IfengNewsSpider(RedisCrawlSpider):
 		if pics is not None and len(pics)>0:
 			news["picture"]=pics.extract()[0];
 			pictureInfo=response.xpath('//p[contains(@class,"picIntro")]/text()')
-			if pictureInfo is not None:
-				news["picture_info"]=pictureInfo.extract()[0].encode('utf-8')
+			if pictureInfo is not None and len(pictureInfo)>0:
+				pictureInfo=pictureInfo.extract()
+				if pictureInfo is not None and len(pictureInfo)>0:
+					news["picture_info"]=pictureInfo[0].encode('utf-8')
+				else:
+					news["picture_info"]="Null"
 			else:
 				news["picture_info"]="Null"
 		else:
