@@ -79,15 +79,19 @@ class SinaNewsSpider(RedisCrawlSpider):
 		else:
 			news['news_type']="null"
 		#图片url 用反斜号分隔
-		picture=response.xpath('//div[contains(@class,"img_wrapper")]/img/@src').extract()
-		for each_pic in picture:
-			if "http:" not in each_pic:
-				each_pic=urljoin("http:",each_pic)
-		news["picture"]='\\'.join(picture)
+		picture=response.xpath('//div[contains(@class,"img_wrapper")]/img/@src')
+		if picture is not None :
+			picture = picture.extract()
+			for each_pic in picture:
+				if "http:" not in each_pic:
+					each_pic=urljoin("http:",each_pic)
+			news["picture"]=picture[0]
 		if news["picture"]==None:
 			news["picture"]=' '
 		#图片信息 用反斜号分隔
-		news["picture_info"]='\\'.join(response.xpath('//div[contains(@class,"img_wrapper")]/span/text()').extract()).encode('utf-8')
+		picinfo= response.xpath('//div[contains(@class,"img_wrapper")]/span/text()') 
+		if picinfo is not None and len(pics)>0:
+			news["picture_info"]=picinfo.extract()[0].encode('utf-8')
 		if news["picture_info"]=='':
 			news["picture_info"]==' '
 		
