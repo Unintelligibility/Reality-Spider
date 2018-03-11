@@ -25,4 +25,6 @@ class News(scrapy.Item):
     news_type = scrapy.Field()
     #标签
     news_tags = scrapy.Field()
+    #URL
+    url = scrapy.Field()
     pass
