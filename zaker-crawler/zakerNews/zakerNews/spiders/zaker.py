@@ -46,8 +46,8 @@ class ZakerCrawlSpider(CrawlSpider):
         header_html = re.sub(r'<span class="time">前天</span>','<span class="time">'+str(getDayBefore(daynum=2))+'</span>',header_html)
         header_html = header_html.encode('utf-8')
 
-        content_html = (header_html + response.xpath('//div[contains(@class,"article_content")]')[0].extract().encode('utf-8'))
-        content_html = content_html.replace('data-original','src')
+        content_html = response.xpath('//div[contains(@class,"article_content")]')[0].extract().replace('data-original','src').encode('utf-8')
+        content_html = header_html+content_html;
 
         news_type = response.xpath('//ol[contains(@class,"breadcrumb")]/li//text()')[-2].extract().encode('utf-8')
         news_tags = (';'.join(response.xpath('//div[contains(@class,"article_more")]/a//text()').extract())).encode('utf-8')
