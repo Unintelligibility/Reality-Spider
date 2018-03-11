@@ -5,7 +5,7 @@ from scrapy.spiders import CrawlSpider, Rule
 from zakerNews.items import News
 import re
 import datetime
-import time
+from scrapy_redis.spiders import RedisCrawlSpider
 
 
 def getDayBefore(daynum):
@@ -14,33 +14,33 @@ def getDayBefore(daynum):
     thatDay=today-days
     return thatDay
 
-class ZakerCrawlSpider(CrawlSpider):
+class ZakerCrawlSpider(RedisCrawlSpider):
     name = 'zaker'
     allowed_domains = ['myzaker.com']
-    start_urls = ['https://www.myzaker.com/channel/660',
-    'https://www.myzaker.com/channel/1',
-    'https://www.myzaker.com/channel/2',
-    'https://www.myzaker.com/channel/3',
-    'https://www.myzaker.com/channel/4',
-    'https://www.myzaker.com/channel/5',
-    'https://www.myzaker.com/channel/6',
-    'https://www.myzaker.com/channel/7',
-    'https://www.myzaker.com/channel/8',
-    'https://www.myzaker.com/channel/9',
-    'https://www.myzaker.com/channel/11',
-    'https://www.myzaker.com/channel/12',
-    'https://www.myzaker.com/channel/13',
-    'https://www.myzaker.com/channel/14',
-    'https://www.myzaker.com/channel/959',
-    'https://www.myzaker.com/channel/981',
-    'https://www.myzaker.com/channel/1039',
-    'https://www.myzaker.com/channel/1014',
-    'https://www.myzaker.com/channel/1067',
-    'https://www.myzaker.com/channel/10376',
-    'https://www.myzaker.com/channel/10386',
-    'https://www.myzaker.com/channel/10530',
-    'https://www.myzaker.com/channel/10802',
-    'https://www.myzaker.com/channel/11195'
+    start_urls = ['https://www.myzaker.com/channel/660',#热点
+    'https://www.myzaker.com/channel/1',#国内
+    'https://www.myzaker.com/channel/2',#国际
+    'https://www.myzaker.com/channel/3',#军事
+    'https://www.myzaker.com/channel/4',#财经
+    'https://www.myzaker.com/channel/5',#互联网
+    'https://www.myzaker.com/channel/6',#首页？
+    'https://www.myzaker.com/channel/7',#汽车
+    'https://www.myzaker.com/channel/8',#体育
+    'https://www.myzaker.com/channel/9',#娱乐
+    'https://www.myzaker.com/channel/11',#教育
+    'https://www.myzaker.com/channel/12',#时尚
+    'https://www.myzaker.com/channel/13',#科技
+    'https://www.myzaker.com/channel/14',#社会
+    'https://www.myzaker.com/channel/959',#亲子
+    'https://www.myzaker.com/channel/981',#旅游
+    'https://www.myzaker.com/channel/1039',#科学
+    'https://www.myzaker.com/channel/1014',#星座
+    'https://www.myzaker.com/channel/1067',#奢侈品
+    'https://www.myzaker.com/channel/10376',#游戏
+    'https://www.myzaker.com/channel/10386',#美食
+    'https://www.myzaker.com/channel/10530',#电影
+    'https://www.myzaker.com/channel/10802',#健康
+    'https://www.myzaker.com/channel/11195'#理财
     ]
 
     rules=(Rule(LinkExtractor(allow=('//www.myzaker.com/article/[a-z0-9]+/$'),
