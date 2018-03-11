@@ -31,25 +31,27 @@ class ZakerCrawlSpider(CrawlSpider):
             return
         picture = pic_part[0].extract().encode('utf-8')
         source = response.xpath('//span[contains(@class,"auther")]/text()')[0].extract().encode('utf-8')
-        time = response.xpath('//span[contains(@class,"time")]/text()')[0].extract().encode('utf-8')
+        time = response.xpath('//span[contains(@class,"time")]/text()')[0].extract()
         time = re.sub(r'[0-9]*分钟前',str(getDayBefore(daynum=0)),time)
         time = re.sub(r'[0-9]*小时前',str(getDayBefore(daynum=0)),time)
         time = re.sub(r'昨天',str(getDayBefore(daynum=1)),time)
         time = re.sub(r'前天',str(getDayBefore(daynum=2)),time)
+        time = time.encode('utf-8')
 
         content_text = (response.xpath('//h1/text()')[0].extract()+'.'.join(response.xpath('//div[contains(@class,"article_content")]//text()').extract())).encode('utf-8')
-        header_html = response.xpath('//div[contains(@class,"article_header")]')[0].extract().encode('utf-8')
+        header_html = response.xpath('//div[contains(@class,"article_header")]')[0].extract()
         header_html = re.sub(r'<span class="time">[0-9]*分钟前</span>','<span class="time">'+str(getDayBefore(daynum=0))+'</span>',header_html)
         header_html = re.sub(r'<span class="time">[0-9]*小时前</span>','<span class="time">'+str(getDayBefore(daynum=0))+'</span>',header_html)
         header_html = re.sub(r'<span class="time">昨天</span>','<span class="time">'+str(getDayBefore(daynum=1))+'</span>',header_html)
         header_html = re.sub(r'<span class="time">前天</span>','<span class="time">'+str(getDayBefore(daynum=2))+'</span>',header_html)
+        header_html = header_html.encode('utf-8')
 
         content_html = (header_html + response.xpath('//div[contains(@class,"article_content")]')[0].extract().encode('utf-8'))
         content_html = content_html.replace('data-original','src')
 
         news_type = response.xpath('//ol[contains(@class,"breadcrumb")]/li//text()')[-2].extract().encode('utf-8')
         news_tags = (';'.join(response.xpath('//div[contains(@class,"article_more")]/a//text()').extract())).encode('utf-8')
-
+    
         news["title"]=title
         news["url"]=response.url
         news["picture"]=picture
