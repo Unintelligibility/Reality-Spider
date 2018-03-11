@@ -17,7 +17,31 @@ def getDayBefore(daynum):
 class ZakerCrawlSpider(CrawlSpider):
     name = 'zaker'
     allowed_domains = ['myzaker.com']
-    start_urls = ['https://www.myzaker.com/channel/660','https://www.myzaker.com/channel/9']
+    start_urls = ['https://www.myzaker.com/channel/660',
+    'https://www.myzaker.com/channel/1',
+    'https://www.myzaker.com/channel/2',
+    'https://www.myzaker.com/channel/3',
+    'https://www.myzaker.com/channel/4',
+    'https://www.myzaker.com/channel/5',
+    'https://www.myzaker.com/channel/6',
+    'https://www.myzaker.com/channel/7',
+    'https://www.myzaker.com/channel/8',
+    'https://www.myzaker.com/channel/9',
+    'https://www.myzaker.com/channel/11',
+    'https://www.myzaker.com/channel/12',
+    'https://www.myzaker.com/channel/13',
+    'https://www.myzaker.com/channel/14',
+    'https://www.myzaker.com/channel/959',
+    'https://www.myzaker.com/channel/981',
+    'https://www.myzaker.com/channel/1039',
+    'https://www.myzaker.com/channel/1014',
+    'https://www.myzaker.com/channel/1067',
+    'https://www.myzaker.com/channel/10376',
+    'https://www.myzaker.com/channel/10386',
+    'https://www.myzaker.com/channel/10530',
+    'https://www.myzaker.com/channel/10802',
+    'https://www.myzaker.com/channel/11195'
+    ]
 
     rules=(Rule(LinkExtractor(allow=('//www.myzaker.com/article/[a-z0-9]+/$'),
 		restrict_xpaths=('//a')),
