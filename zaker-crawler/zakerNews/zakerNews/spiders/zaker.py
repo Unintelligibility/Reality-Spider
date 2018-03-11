@@ -81,7 +81,7 @@ class ZakerCrawlSpider(CrawlSpider):
         news["source"]=source
         news["time"]=time
         news["content_text"]=content_text
-        news["content_html"]=content_html
+        news["content"]=content_html
         news["news_type"]=news_type
         news["news_tags"]=news_tags
         yield news

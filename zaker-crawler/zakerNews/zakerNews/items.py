@@ -20,7 +20,7 @@ class News(scrapy.Item):
     #文本内容
     content_text = scrapy.Field()
     #html内容
-    content_html = scrapy.Field()
+    content = scrapy.Field()
     #分类
     news_type = scrapy.Field()
     #标签
