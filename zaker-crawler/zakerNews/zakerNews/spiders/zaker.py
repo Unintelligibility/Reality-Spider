@@ -56,6 +56,7 @@ class ZakerCrawlSpider(RedisCrawlSpider):
         picture = pic_part[0].extract()
         source = response.xpath('//span[contains(@class,"auther")]/text()')[0].extract()
         time = response.xpath('//span[contains(@class,"time")]/text()')[0].extract()
+        time = re.sub(r'刚刚',str(getDayBefore(daynum=0)),time)
         time = re.sub(r'[0-9]*分钟前',str(getDayBefore(daynum=0)),time)
         time = re.sub(r'[0-9]*小时前',str(getDayBefore(daynum=0)),time)
         time = re.sub(r'昨天',str(getDayBefore(daynum=1)),time)
@@ -64,6 +65,7 @@ class ZakerCrawlSpider(RedisCrawlSpider):
         content_text = (response.xpath('//h1/text()')[0].extract()+'.'.join(response.xpath('//div[contains(@class,"article_content")]//text()').extract()))
         
         header_html = response.xpath('//div[contains(@class,"article_header")]')[0].extract()
+        header_html = re.sub(r'刚刚',str(getDayBefore(daynum=0)),header_html)
         header_html = re.sub(r'<span class="time">[0-9]*分钟前</span>','<span class="time">'+str(getDayBefore(daynum=0))+'</span>',header_html)
         header_html = re.sub(r'<span class="time">[0-9]*小时前</span>','<span class="time">'+str(getDayBefore(daynum=0))+'</span>',header_html)
         header_html = re.sub(r'<span class="time">昨天</span>','<span class="time">'+str(getDayBefore(daynum=1))+'</span>',header_html)
